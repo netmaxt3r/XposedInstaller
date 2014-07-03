@@ -41,8 +41,8 @@ public class InstallerFragment extends Fragment {
 	private static Pattern PATTERN_APP_PROCESS_VERSION = Pattern.compile(".*with Xposed support \\(version (.+)\\).*");
 	private String APP_PROCESS_NAME = null;
 	private final String BINARIES_FOLDER = AssetUtil.getBinariesFolder();
-	private static final String JAR_PATH = XposedApp.BASE_DIR + "bin/XposedBridge.jar";
-	private static final String JAR_PATH_NEWVERSION = JAR_PATH + ".newversion";
+	private static final String JAR_PATH = "/system/framework/XposedBridge.jar";
+	private static final String JAR_PATH_NEWVERSION = XposedApp.BASE_DIR + "bin/XposedBridge.jar" + ".newversion";
 	private static int JAR_LATEST_VERSION = -1;
 	private final LinkedList<String> mCompatibilityErrors = new LinkedList<String>();
 	private RootUtil mRootUtil = new RootUtil();
@@ -560,7 +560,7 @@ public class InstallerFragment extends Fragment {
 		JarEntry entry;
 		try {
 			while ((entry = jis.getNextJarEntry()) != null) {
-				if (!entry.getName().equals("assets/VERSION"))
+				if (!(entry.getName().equals("assets/VERSION")||entry.getName().equals("VERSION")))
 					continue;
 
 				BufferedReader br = new BufferedReader(new InputStreamReader(jis));
